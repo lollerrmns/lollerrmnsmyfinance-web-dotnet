@@ -48,17 +48,26 @@ namespace myfinance_web_dotnet.Controllers
         }
 
         [HttpGet]
-        [Route("Cadastro")]
-        [Route("Cadastro/{id}")]
+        [Route("PlanoConta/Cadastro")]
+        [Route("PlanoConta/Cadastro/{id}")]
         public IActionResult Cadastro(int? id)
         {
+            Console.WriteLine("--------------Cadastro(int? id)-------------");
             var planoConta = new PlanoContaModel();
             if (id != null)
             {
-                var planoContaDomain = _myFinanceDbContext.PlanoConta.Where(x => x.Id == id).FirstOrDefault();
-                planoConta.Id = planoContaDomain.Id;
-                planoConta.Descricao = planoContaDomain.Descricao;
-                planoConta.Tipo = planoContaDomain.Tipo;
+                //var planoContaDomain = _myFinanceDbContext.PlanoConta.Where(x => x.Id == id).FirstOrDefault();
+
+                var planoContaDomain = _myFinanceDbContext.PlanoConta.Find(id);
+                if (planoContaDomain != null)
+                {
+                    planoConta.Id = planoContaDomain.Id;
+                    planoConta.Descricao = planoContaDomain.Descricao;
+                    planoConta.Tipo = planoContaDomain.Tipo;
+                }
+                // planoConta.Id = planoContaDomain.Id;
+                // planoConta.Descricao = planoContaDomain.Descricao;
+                // planoConta.Tipo = planoContaDomain.Tipo;
 
             }
             return View(planoConta);
@@ -72,8 +81,8 @@ namespace myfinance_web_dotnet.Controllers
         }
 
         [HttpPost]
-        [Route("Cadastro")]
-        [Route("Cadastro/{id}")]
+        [Route("PlanoConta/Cadastro")]
+        [Route("PlanoConta/Cadastro/{id}")]
         public IActionResult Cadastro(PlanoContaModel input)
         {
             var planoConta = new PlanoConta()
@@ -97,14 +106,14 @@ namespace myfinance_web_dotnet.Controllers
             return RedirectToAction("Index");
         }
         [HttpGet]
-        [Route("Excluir/(id)")]
-        public IActionResult Excluir(int id)
+        [Route("PlanoConta/Excluir/{id}")]
+        public IActionResult Excluir(int? id)
         {
-            // var planoConta = new PlanoConta() { Id = Id };
-            // _myFinanceDbContext.PlanoConta.Remove(planoConta);
-            // _myFinanceDbContext.SaveChanges();
-            // return RedirectToAction("Index");
-            return null;
+            Console.WriteLine("--------------EXCLUIR-------------");
+            var planoConta = new PlanoConta() { Id = id };
+            _myFinanceDbContext.PlanoConta.Remove(planoConta);
+            _myFinanceDbContext.SaveChanges();
+            return RedirectToAction("Index");
         }
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()

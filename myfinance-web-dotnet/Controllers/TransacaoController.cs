@@ -1,4 +1,3 @@
-
 using Microsoft.AspNetCore.Mvc;
 using myfinance_web_dotnet.Models;
 using myfinance_web_dotnet.Domain;
@@ -27,7 +26,7 @@ namespace myfinance_web_dotnet.Controllers
                 var transacaoModel = new TransacaoModel()
                 {
                     Id = item.Id,
-                    Historico = item.Histrico,
+                    Historico = item.Historico,
                     Data = item.Data,
                     Valor = item.Valor,
                     PlanoContaId = item.PlanoContaId
@@ -39,9 +38,9 @@ namespace myfinance_web_dotnet.Controllers
         }
 
         [HttpGet]
-        [Route("Cadastro")]
-        [Route("Cadastro/{id}")]
-        public IActionResult Cadastro(int id)
+        [Route("TCadastro")]
+        [Route("TCadastro/{id}")]
+        public IActionResult TCadastro(int id)
         {
             var planoConta = new PlanoContaModel();
             if (id != null)
@@ -57,7 +56,7 @@ namespace myfinance_web_dotnet.Controllers
 
 
         [HttpGet]
-        public IActionResult Cadastro()
+        public IActionResult TCadastro()
         {
             return View();
         }
@@ -67,9 +66,9 @@ namespace myfinance_web_dotnet.Controllers
             return View("Error!");
         }
         [HttpPost]
-        [Route("Cadastro")]
-        [Route("Cadastro/{input}")]
-        public IActionResult Cadastro(PlanoContaModel input)
+        [Route("TCadastro")]
+        [Route("TCadastro/{input}")]
+        public IActionResult TCadastro(PlanoContaModel input)
         {
             var planoConta = new PlanoConta()
             {
