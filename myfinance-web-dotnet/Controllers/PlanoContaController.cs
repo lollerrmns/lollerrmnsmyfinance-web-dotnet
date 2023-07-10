@@ -1,4 +1,3 @@
-
 using Microsoft.AspNetCore.Mvc;
 using myfinance_web_dotnet.Models;
 using myfinance_web_dotnet.Domain;
@@ -57,7 +56,6 @@ namespace myfinance_web_dotnet.Controllers
             if (id != null)
             {
                 //var planoContaDomain = _myFinanceDbContext.PlanoConta.Where(x => x.Id == id).FirstOrDefault();
-
                 var planoContaDomain = _myFinanceDbContext.PlanoConta.Find(id);
                 if (planoContaDomain != null)
                 {
@@ -65,10 +63,6 @@ namespace myfinance_web_dotnet.Controllers
                     planoConta.Descricao = planoContaDomain.Descricao;
                     planoConta.Tipo = planoContaDomain.Tipo;
                 }
-                // planoConta.Id = planoContaDomain.Id;
-                // planoConta.Descricao = planoContaDomain.Descricao;
-                // planoConta.Tipo = planoContaDomain.Tipo;
-
             }
             return View(planoConta);
         }

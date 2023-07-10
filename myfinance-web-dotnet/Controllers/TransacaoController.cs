@@ -1,6 +1,8 @@
 using Microsoft.AspNetCore.Mvc;
 using myfinance_web_dotnet.Models;
 using myfinance_web_dotnet.Domain;
+
+
 namespace myfinance_web_dotnet.Controllers
 {
     public class TransacaoController : Controller
@@ -38,48 +40,77 @@ namespace myfinance_web_dotnet.Controllers
         }
 
         [HttpGet]
-        [Route("TCadastro")]
-        [Route("TCadastro/{id}")]
-        public IActionResult TCadastro(int id)
+        [Route("Transacao/Cadastro")]
+        [Route("Transacao/Cadastro/{id}")]
+        public IActionResult Cadastro(int id)
         {
-            var planoConta = new PlanoContaModel();
+            var transacao = new TransacaoModel();
             if (id != null)
             {
-                var planoContaDomain = _myFinanceDbContext.PlanoConta.Where(x => x.Id == id).FirstOrDefault();
-                planoConta.Id = planoContaDomain.Id;
-                planoConta.Descricao = planoContaDomain.Descricao;
-                planoConta.Tipo = planoContaDomain.Tipo;
+                //var transacaoDomain = _myFinanceDbContext.Transacao.Where(x => x.Id == id).FirstOrDefault();
+                var transacaoDomain = _myFinanceDbContext.Transacao.Find(id);
+                if (transacaoDomain != null)
+                {
+                    transacao.Id = transacaoDomain.Id;
+                    transacao.Historico = transacaoDomain.Historico;
+                    transacao.Valor = transacaoDomain.Valor;
+                    transacao.Data = transacaoDomain.Data;
+                    transacao.PlanoContaId = transacaoDomain.PlanoContaId;
+                }
 
             }
-            return View(planoConta);
+            return View(transacao);
         }
 
 
         [HttpGet]
-        public IActionResult TCadastro()
+        public IActionResult Cadastro()
         {
             return View();
         }
+
+        [HttpPost]
+        [Route("Transacao/Cadastro")]
+        [Route("Transacao/Cadastro/{id}")]
+        public IActionResult Cadastro(TransacaoModel input)
+        {
+            var transacao = new Transacao()
+            {
+                Id = input.Id,
+                Historico = input.Historico,
+                Valor = input.Valor,
+                Data = input.Data,
+                PlanoContaId = input.PlanoContaId
+            };
+
+            if (transacao.Id == null)
+            {
+                _myFinanceDbContext.Transacao.Add(transacao);
+            }
+            else
+            {
+                _myFinanceDbContext.Transacao.Attach(transacao);
+                _myFinanceDbContext.Entry(transacao).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+            }
+
+            _myFinanceDbContext.SaveChanges();
+            return RedirectToAction("Index");
+        }
+        [HttpGet]
+        [Route("Transacao/Excluir/{id}")]
+        public IActionResult Excluir(int? id)
+        {
+            Console.WriteLine("--------------EXCLUIR-------------");
+            var transacao = new Transacao() { Id = id };
+            _myFinanceDbContext.Transacao.Remove(transacao);
+            _myFinanceDbContext.SaveChanges();
+            return RedirectToAction("Index");
+        }
+
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {
             return View("Error!");
         }
-        [HttpPost]
-        [Route("TCadastro")]
-        [Route("TCadastro/{input}")]
-        public IActionResult TCadastro(PlanoContaModel input)
-        {
-            var planoConta = new PlanoConta()
-            {
-                Id = input.Id,
-                Descricao = input.Descricao,
-                Tipo = input.Tipo
-            };
-            _myFinanceDbContext.PlanoConta.Add(planoConta);
-            _myFinanceDbContext.SaveChanges();
-            return RedirectToAction("Index");
-        }
-
     }
 }
