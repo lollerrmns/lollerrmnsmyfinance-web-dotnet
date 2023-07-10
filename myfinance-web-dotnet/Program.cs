@@ -1,11 +1,19 @@
 using MySql.Data.MySqlClient;
 using System;
 using myfinance_web_dotnet;
+using myfinance_web_dotnet.Application.ObterPlanoContaUseCase;
+using myfinance_web_dotnet.Services.Interfaces;
+using myfinance_web_dotnet.Repository.Interfaces;
+using myfinance_web_dotnet.Repository;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 builder.Services.AddDbContext<MyFinanceDbController>();
+builder.Services.AddScoped<IObterPlanoContaUseCase,ObterPlanoContaUseCase>();
+//builder.Services.AddScoped<IPlanoContaService,PlanoContaService>();
+builder.Services.AddScoped<IPlanoContaRepository,PlanoContaRepository>();
 
 var app = builder.Build();
 

@@ -2,22 +2,29 @@
 using Microsoft.AspNetCore.Mvc;
 using myfinance_web_dotnet.Models;
 using myfinance_web_dotnet.Domain;
+using myfinance_web_dotnet.Application.ObterPlanoContaUseCase;
+
 namespace myfinance_web_dotnet.Controllers
 {
     public class PlanoContaController : Controller
     {
         private readonly ILogger<PlanoContaController> _logger;
         private readonly MyFinanceDbController _myFinanceDbContext;
+        private readonly IObterPlanoContaUseCase _obterPlanoContaUseCase;
 
         public PlanoContaController(
             ILogger<PlanoContaController> logger,
-            MyFinanceDbController myFinanceDbContext
+            MyFinanceDbController myFinanceDbContext,
+            IObterPlanoContaUseCase obterPlanoContaUseCase
+
         )
         {
             _logger = logger;
             _myFinanceDbContext = myFinanceDbContext;
+            _obterPlanoContaUseCase = obterPlanoContaUseCase;
         }
 
+        [HttpGet]
         public IActionResult Index()
         {
             var listaPlanoContas = _myFinanceDbContext.PlanoConta;
@@ -34,12 +41,16 @@ namespace myfinance_web_dotnet.Controllers
             }
             ViewBag.listaPlanoConta = listaPlanoContaModel;
             return View();
+
+
+
+
         }
 
         [HttpGet]
         [Route("Cadastro")]
         [Route("Cadastro/{id}")]
-        public IActionResult Cadastro(int id)
+        public IActionResult Cadastro(int? id)
         {
             var planoConta = new PlanoContaModel();
             if (id != null)
@@ -59,14 +70,10 @@ namespace myfinance_web_dotnet.Controllers
         {
             return View();
         }
-        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult Error()
-        {
-            return View("Error!");
-        }
+
         [HttpPost]
         [Route("Cadastro")]
-        [Route("Cadastro/{input}")]
+        [Route("Cadastro/{id}")]
         public IActionResult Cadastro(PlanoContaModel input)
         {
             var planoConta = new PlanoConta()
@@ -75,10 +82,35 @@ namespace myfinance_web_dotnet.Controllers
                 Descricao = input.Descricao,
                 Tipo = input.Tipo
             };
-            _myFinanceDbContext.PlanoConta.Add(planoConta);
+
+            if (planoConta.Id == null)
+            {
+                _myFinanceDbContext.PlanoConta.Add(planoConta);
+            }
+            else
+            {
+                _myFinanceDbContext.PlanoConta.Attach(planoConta);
+                _myFinanceDbContext.Entry(planoConta).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+            }
+
             _myFinanceDbContext.SaveChanges();
             return RedirectToAction("Index");
         }
-
+        [HttpGet]
+        [Route("Excluir/(id)")]
+        public IActionResult Excluir(int id)
+        {
+            // var planoConta = new PlanoConta() { Id = Id };
+            // _myFinanceDbContext.PlanoConta.Remove(planoConta);
+            // _myFinanceDbContext.SaveChanges();
+            // return RedirectToAction("Index");
+            return null;
+        }
+        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
+        public IActionResult Error()
+        {
+            return View("Error!");
+        }
     }
+
 }
