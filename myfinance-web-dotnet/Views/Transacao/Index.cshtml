@@ -15,6 +15,7 @@
             <th scope="col">Historico</th>
             <th scope="col">Valor</th>
             <th scope="col">Data</th>
+            <th scope="col">Tipo Operação</th>
             <th scope="col">PlanoContaId</th>
             <th scope="col">#</th>
             <th scope="col">#</th>
@@ -29,7 +30,8 @@
                     <td>@item.Historico</td>
                     <td>@item.Valor</td>
                     <td>@item.Data</td>
-                    <td>@item.PlanoContaId</td>
+                    <td>@item.ItemPlanoConta.Tipo</td>
+                    <td>@item.ItemPlanoConta.Descricao</td>
                     <td><button type="button" class="btn btn-warning" onclick="Editar(@item.Id);">Editar</button></td>
                     <td><button type="button" class="btn btn-danger" onclick="Excluir(@item.Id);">Excluir</button></td
                 </tr>

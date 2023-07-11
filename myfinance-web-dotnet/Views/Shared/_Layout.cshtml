@@ -51,5 +51,18 @@
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
     @await RenderSectionAsync("Scripts", required: false)
+
+    @section Scripts {
+    <script>
+        $(function () {
+            $('#datepicker').datepicker({
+                format: 'dd/mm/yyyy', // Define o formato da data
+                autoclose: true, // Fecha o Date Picker automaticamente ao selecionar uma data
+                todayHighlight: true // Destaca a data atual
+                // Aqui você pode adicionar outras opções de configuração, se necessário
+            });
+        });
+    </script>
+}
 </body>
 </html>
