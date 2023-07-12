@@ -1,7 +1,10 @@
 using myfinance_web_dotnet.Models;
-namespace myfinance_web_dotnet.Services.Interfaces{
+namespace myfinance_web_dotnet.Services.Interfaces
+{
 
-public interface IPlanoContaService{
- List<PlanoContaModel> istaPlanoContaModel();   
-}
+    public interface IPlanoContaService
+    {
+        List<PlanoContaModel> ListaPlanoContaModel();
+        void CadastrarPlanoConta(PlanoContaModel input);
+    }
 }

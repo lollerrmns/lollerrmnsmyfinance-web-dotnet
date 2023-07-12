@@ -5,6 +5,8 @@ using myfinance_web_dotnet.Application.ObterPlanoContaUseCase;
 using myfinance_web_dotnet.Services.Interfaces;
 using myfinance_web_dotnet.Repository.Interfaces;
 using myfinance_web_dotnet.Repository;
+using myfinance_web_dotnet.Service.PlanoContaService;
+using myfinance_web_dotnet.Application.CadastrarPlanoContaUseCase;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -12,7 +14,8 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllersWithViews();
 builder.Services.AddDbContext<MyFinanceDbController>();
 builder.Services.AddScoped<IObterPlanoContaUseCase,ObterPlanoContaUseCase>();
-//builder.Services.AddScoped<IPlanoContaService,PlanoContaService>();
+builder.Services.AddScoped<ICadastrarPlanoContaUseCase,CadastrarPlanoContaUseCase>();
+builder.Services.AddScoped<IPlanoContaService,PlanoContaService>();
 builder.Services.AddScoped<IPlanoContaRepository,PlanoContaRepository>();
 
 var app = builder.Build();

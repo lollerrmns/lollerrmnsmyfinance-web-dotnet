@@ -26,24 +26,8 @@ namespace myfinance_web_dotnet.Controllers
         [HttpGet]
         public IActionResult Index()
         {
-            var listaPlanoContas = _myFinanceDbContext.PlanoConta;
-            var listaPlanoContaModel = new List<PlanoContaModel>();
-            foreach (var item in listaPlanoContas)
-            {
-                var planoContaModel = new PlanoContaModel()
-                {
-                    Id = item.Id,
-                    Descricao = item.Descricao,
-                    Tipo = item.Tipo
-                };
-                listaPlanoContaModel.Add(planoContaModel);
-            }
-            ViewBag.listaPlanoConta = listaPlanoContaModel;
+            ViewBag.listaPlanoConta = _obterPlanoContaUseCase.GetListaPlanoContaModel();
             return View();
-
-
-
-
         }
 
         [HttpGet]

@@ -1,16 +1,15 @@
-using myfinance_web_dotnet.Models;
+using myfinance_web_dotnet.Domain;
 using myfinance_web_dotnet.Repository.Interfaces;
 
 namespace myfinance_web_dotnet.Repository
 {
 
-    public class PlanoContaRepository : IPlanoContaRepository
+    public class PlanoContaRepository : Repository<PlanoConta>, IPlanoContaRepository
     {
-        private readonly MyFinanceDbController _myFinanceDbContext;
-        public List<PlanoContaModel> listaPlanoContaModel()
+        public PlanoContaRepository(MyFinanceDbController myFinanceDbContext): base(myFinanceDbContext)
         {
-            return null;
-            //throw new NotImplementedException();
+            
         }
+
     }
 }
