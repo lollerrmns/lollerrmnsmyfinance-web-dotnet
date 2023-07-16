@@ -46,7 +46,9 @@ Para fazer o deploy desse projeto siga o passo-a-passo abaixo:
 6 Acessar a pasta do projeto 
     ```cd myfinance-web-dotnet```
     
-7 Executar os comandos dotnet build donet run
+7 Executar os comandos 
+```dotnet build```
+```donet run```
 
 
 
