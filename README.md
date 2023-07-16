@@ -30,10 +30,9 @@ Para fazer o deploy desse projeto siga o passo-a-passo abaixo:
 1 Clonar o repositório 
 
 2 Instalar os programas: 
-
-    [MySQL Server](https://www.mysql.com/downloads/)
-    [Vs code](https://code.visualstudio.com/download) 
-    [.Net 7](https://dotnet.microsoft.com/pt-br/download)
+- [@MySQL Server](https://www.mysql.com/downloads/)
+- [@Vs code](https://code.visualstudio.com/download)
+- [@.Net 7](https://dotnet.microsoft.com/pt-br/download)
 
 3 Executar o script de criação do banco de dados (SQL creation file);
 
@@ -47,7 +46,9 @@ Para fazer o deploy desse projeto siga o passo-a-passo abaixo:
     ```cd myfinance-web-dotnet```
     
 7 Executar os comandos 
+
 ```dotnet build```
+
 ```donet run```
 
 
