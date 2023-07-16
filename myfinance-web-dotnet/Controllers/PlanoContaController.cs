@@ -2,6 +2,8 @@ using Microsoft.AspNetCore.Mvc;
 using myfinance_web_dotnet.Models;
 using myfinance_web_dotnet.Domain;
 using myfinance_web_dotnet.Application.ObterPlanoContaUseCase;
+using Microsoft.EntityFrameworkCore;
+using MySql.Data.MySqlClient;
 
 namespace myfinance_web_dotnet.Controllers
 {
@@ -87,17 +89,35 @@ namespace myfinance_web_dotnet.Controllers
         [Route("PlanoConta/Excluir/{id}")]
         public IActionResult Excluir(int? id)
         {
-            Console.WriteLine("--------------EXCLUIR-------------");
-            var planoConta = new PlanoConta() { Id = id };
-            _myFinanceDbContext.PlanoConta.Remove(planoConta);
-            _myFinanceDbContext.SaveChanges();
-            return RedirectToAction("Index");
+            try
+            {
+                Console.WriteLine("--------------EXCLUIR-------------");
+                var planoConta = new PlanoConta() { Id = id };
+                _myFinanceDbContext.PlanoConta.Remove(planoConta);
+                _myFinanceDbContext.SaveChanges();
+                return RedirectToAction("Index");
+            }
+            catch (DbUpdateException ex)
+            {
+
+                if (ex.InnerException.Message.Contains("foreign key constraint fails"))
+                {
+                    var errorMessage = "Apague as transações relacionadas primeiro antes de excluir o plano de conta";
+                    return Content($"'{errorMessage}'");
+                }
+                else{
+                    Console.WriteLine("-------------OTHERException--------------");
+                    // Lidar com outras exceções ou reverter para o comportamento padrão de erro
+                    throw;
+                }
+            }
         }
+
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {
-            return View("Error!");
+            return View();
         }
-    }
 
+    }
 }
