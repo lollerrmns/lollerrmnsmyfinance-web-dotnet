@@ -24,7 +24,7 @@ Banco de dados MySQL Server
 
 ## Deploy
 
-Para fazer o deploy desse projeto rode
+Para fazer o deploy desse projeto siga o passo-a-passo abaixo:
 
 
 1 Clonar o repositório 
