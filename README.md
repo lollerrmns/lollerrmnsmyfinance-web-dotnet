@@ -1,6 +1,3 @@
-# lollerrmnsmyfinance-web-dotnet
-
-
 # myfinance-web-dotnet
 Descrição do Projeto
 
